@@ -43,42 +43,49 @@ public class CsvServiceImpl implements CsvService {
 
 		List<Product> validProducts = allProducts.stream().filter(r -> r.isValid()).collect(Collectors.toList());
 
-		List<Map<String, Object>> failureRecords = allProducts.stream().filter(r -> !r.isValid())
-				.map(r -> {
-	                Map<String, Object> map = new HashMap<>();
-	                map.put("sku", r.getSku());
-	                map.put("name", r.getName());
-	                map.put("brand", r.getBrand());
-	                map.put("color", r.getColor());
-	                map.put("size", r.getSize());
-	                map.put("mrp_value", r.getMrp());
-	                map.put("price_value", r.getPrice());
-	                map.put("quantity_value", r.getQuantity());
-	                return map;
-	            })
-				.collect(Collectors.toList());
-		
+		List<Map<String, Object>> failureRecords = allProducts.stream().filter(r -> !r.isValid()).map(r -> {
+			Map<String, Object> map = new HashMap<>();
+			map.put("sku", r.getSku());
+			map.put("name", r.getName());
+			map.put("brand", r.getBrand());
+			map.put("color", r.getColor());
+			map.put("size", r.getSize());
+			map.put("mrp_value", r.getMrp());
+			map.put("price_value", r.getPrice());
+			map.put("quantity_value", r.getQuantity());
+			return map;
+		}).collect(Collectors.toList());
+
 		ProcessingResult processingResult = new ProcessingResult();
 		processingResult.setValidProducts(validProducts);
 		processingResult.setFailureRecords(failureRecords);
-		
-		
+
 		return processingResult;
 	}
 
 	private Product Convert(ProductCsvDto dto) {
 		Product product = new Product();
+
 		product.setSku(dto.getSku());
 		product.setName(dto.getName());
 		product.setBrand(dto.getBrand());
 		product.setColor(dto.getColor());
 		product.setSize(dto.getSize());
-		product.setMrp(Long.parseLong(dto.getMrp()));
-		product.setPrice(Long.parseLong(dto.getPrice()));
-		if (null == dto.getQuantity()) {
-			product.setQuantity(0);
-		} else {
+
+		try {
+			product.setMrp(Long.parseLong(dto.getMrp()));
+		} catch (Exception e) {
+			product.setMrp(0L);
+		}
+		try {
+			product.setPrice(Long.parseLong(dto.getPrice()));
+		} catch (Exception e) {
+			product.setPrice(Long.MAX_VALUE);
+		}
+		try {
 			product.setQuantity(Integer.parseInt(dto.getQuantity()));
+		} catch (Exception e) {
+			product.setQuantity(0);
 		}
 
 		return product;
