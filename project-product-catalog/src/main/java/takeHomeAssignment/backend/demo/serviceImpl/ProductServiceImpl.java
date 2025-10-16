@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +19,7 @@ import takeHomeAssignment.backend.demo.entity.Product;
 import takeHomeAssignment.backend.demo.repository.ProductRepository;
 import takeHomeAssignment.backend.demo.service.CsvService;
 import takeHomeAssignment.backend.demo.service.ProductService;
+import takeHomeAssignment.backend.demo.util.PaginationParam;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -49,6 +54,33 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 			throw new IOException("Failed to parse CSV file using OpenCSV: " + e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public Page<Product> findAllProducts(PaginationParam paginationParam) {
+		Pageable pageable = PageRequest.of(paginationParam.getPage(), paginationParam.getSize(),
+				paginationParam.getSortDirection().equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(paginationParam.getSortBy()).ascending()
+						: Sort.by(paginationParam.getSortBy()).descending());
+		
+		
+		Page<Product> pageOfProducts = productRepository.findAll(pageable);
+		
+		return pageOfProducts;
+	}
+
+	@Override
+	public Page<Product> findProductsByParam(PaginationParam paginationParam, String name, String brand, String color,
+			Long maxPrice, Long minPrice) {
+		
+		Pageable pageable = PageRequest.of(paginationParam.getPage(), paginationParam.getSize(),
+				paginationParam.getSortDirection().equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(paginationParam.getSortBy()).ascending()
+						: Sort.by(paginationParam.getSortBy()).descending());
+		
+		
+		Page<Product> pageOfProducts = productRepository.findProductsByParam(pageable, name, brand, color, maxPrice, minPrice);
+		
+		return pageOfProducts;
+		
 	}
 
 }
