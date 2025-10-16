@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # --- 1. Application Service (Spring Boot) ---
+  app:
+    # Build the image using the Dockerfile
+    build: .
+    image: product-catalog-app:latest
+    container_name: product-app
+    # Map container port 8080 to host port 8080
+    ports:
+      - "8080:8080"
+    # Wait for the database service to be ready
+    depends_on:
+      - db
+    # Configuration for the database connection
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/streamoid-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Pranay09kal!
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update 
+      
+    restart: unless-stopped
+    
+  # --- 2. Database Service (PostgreSQL) ---
+  db:
+    image: postgres:16-alpine
+    container_name: streamoid-db
+    # Environment variables to configure PostgreSQL
+    environment:
+      POSTGRES_DB: streamoid-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Pranay09kal!
+    # Volume for data persistence
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      
+    restart: unless-stopped
+
+# --- Define Volume for Persistent Database Data ---
+volumes:
+  postgres_data:
