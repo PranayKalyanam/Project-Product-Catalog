@@ -1,5 +1,6 @@
 package takeHomeAssignment.backend.demo.restController;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class ProductRestController {
 	}
 
 	@PostMapping("/upload")
-	public ResponseEntity<UploadResultDto> postCSVFile(@RequestParam(required = false) MultipartFile file) {
+	public ResponseEntity<UploadResultDto> postCSVFile(@RequestParam(required = true) MultipartFile file) throws IOException{
 
 		if (file.isEmpty()) {
 			return ResponseEntity.badRequest().body(new UploadResultDto(0, List.of(Map.of("error", "File is empty!"))));

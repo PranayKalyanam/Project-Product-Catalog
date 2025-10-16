@@ -44,4 +44,34 @@ public class Product {
 	@NotNull(message = "Please enter valid quantity !")
 	@Min(value = 1, message = "Quantity should be greater than 0")
 	private Integer quantity;
+
+	public Boolean isValid() {
+
+		if (sku.isEmpty()) {
+			return false;
+		}
+		if (name.isEmpty()) {
+			return false;
+		}
+		if (brand.isEmpty()) {
+			return false;
+		}
+
+		if (null == mrp) {
+			return false;
+		}
+		if (null == price) {
+			return false;
+		}
+		if (quantity < 0) {
+			return false;
+		}
+
+		if (price > mrp) {
+			return false;
+		}
+
+		return true;
+
+	}
 }
