@@ -15,9 +15,9 @@ services:
       - db
     # Configuration for the database connection
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/streamoid-db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: Pranay09kal!
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/<your db>
+      SPRING_DATASOURCE_USERNAME: <your db user>
+      SPRING_DATASOURCE_PASSWORD: <your password>
       SPRING_JPA_HIBERNATE_DDL_AUTO: update 
       
     restart: unless-stopped
@@ -28,9 +28,9 @@ services:
     container_name: streamoid-db
     # Environment variables to configure PostgreSQL
     environment:
-      POSTGRES_DB: streamoid-db
+      POSTGRES_DB: <your db>
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Pranay09kal!
+      POSTGRES_PASSWORD: <your password>
     # Volume for data persistence
     volumes:
       - postgres_data:/var/lib/postgresql/data/
