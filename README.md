@@ -4,7 +4,7 @@ This project provides a Spring Boot application designed for managing a product 
 This application is designed to run easily using Docker Compose.
 #### Note: Please change the database credentials like user, password, db before running below commands in docker-compose.yml, application-create.properties, application-update.properties
 #### Prerequisites
-You must have Docker and Docker Compose installed on your system.
+You must have Docker and Docker Compose installed on your system and it runs.
 #### 1. Build and Run the Stack
 Navigate to the root directory of the project where docker-compose.yml and the Dockerfile are located, and run the following command:
 
