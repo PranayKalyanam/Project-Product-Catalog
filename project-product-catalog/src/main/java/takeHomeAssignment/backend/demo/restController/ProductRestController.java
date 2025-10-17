@@ -23,6 +23,12 @@ public class ProductRestController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@GetMapping("/")
+	public ResponseEntity<String> hello() {
+		
+		return ResponseEntity.ok("hello");		
+	}
 
 	@PostMapping("/upload")
 	public ResponseEntity<UploadResultDto> postCSVFile(@RequestParam(required = true) MultipartFile file) throws IOException{
