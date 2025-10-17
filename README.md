@@ -2,12 +2,11 @@
 This project provides a Spring Boot application designed for managing a product catalog, primarily through CSV file ingestion. It is fully containerized using Docker Compose for easy setup and deployment, including a dedicated PostgreSQL database.
 ### Setup and Running Instructions
 This application is designed to run easily using Docker Compose.
+#### Note: Please change the database credentials like user, password, db before running below commands in docker-compose.yml, application-create.properties, application-update.properties
 #### Prerequisites
 You must have Docker and Docker Compose installed on your system.
 #### 1. Build and Run the Stack
 Navigate to the root directory of the project where docker-compose.yml and the Dockerfile are located, and run the following command:
-
-#### Note: Please change the database credentials like user, password, db before running below command
 
 #### docker compose up --build
 -----------------------------------
